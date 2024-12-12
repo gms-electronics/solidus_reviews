@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Spree::FeedbackReviewsController < Spree::StoreController
+class FeedbackReviewsController < StoreController
   helper Spree::BaseHelper
 
   before_action :sanitize_rating, only: [:create]

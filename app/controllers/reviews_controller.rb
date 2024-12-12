@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Spree::ReviewsController < Spree::StoreController
+class ReviewsController < StoreController
   helper Spree::BaseHelper
   before_action :load_product, only: [:index, :new, :create, :edit, :update]
 
@@ -38,7 +38,7 @@ class Spree::ReviewsController < Spree::StoreController
     authorize! :create, @review
     if @review.save
       flash[:notice] = I18n.t('spree.review_successfully_submitted')
-      redirect_to spree.product_path(@product)
+      redirect_to product_path(@product)
     else
       render :new
     end
