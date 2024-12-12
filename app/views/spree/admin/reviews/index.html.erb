@@ -83,7 +83,7 @@
         <tr id="<%= dom_id review %>">
           <td>
             <% if review.product %>
-              <%= link_to review.product.name, product_path(review.product) %>
+              <%= link_to review.product.name, admin_product_path(review.product) %>
             <% end %>
             </td>
           <td class="align-center">
