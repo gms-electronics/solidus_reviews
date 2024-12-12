@@ -24,6 +24,16 @@ module SolidusReviews
         inject_into_file 'vendor/assets/stylesheets/spree/backend/all.css', " *= require spree/backend/solidus_reviews\n", before: %r{\*/}, verbose: true # rubocop:disable Layout/LineLength
       end
 
+      def add_routes
+        route <<~ROUTES
+          resources :products, only: [:show] do
+            resources :reviews, only: [:index, :new, :create, :edit, :update] do
+              resources :feedback_reviews, only: [:create]
+            end
+          end
+        ROUTES
+      end
+
       def add_migrations
         run 'bin/rails railties:install:migrations FROM=solidus_reviews'
       end
