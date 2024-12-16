@@ -5,7 +5,8 @@ module Spree
     class ReviewsController < Spree::Api::BaseController
       respond_to :json
 
-      before_action :load_review, only: [:show, :update, :destroy]
+      before_action :load_review, only: [:show, :update, :destroy, :set_positive_vote, :set_negative_vote, :flag_review]
+      before_action :initialize_review_vote, only: [:set_positive_vote, :set_negative_vote, :flag_review]
       before_action :load_product, :find_review_user
       before_action :sanitize_rating, only: [:create, :update]
       before_action :prevent_multiple_reviews, only: [:create]
@@ -64,6 +65,30 @@ module Spree
         end
       end
 
+      def set_positive_vote
+        if @vote.update(vote_type: Spree::ReviewVote::POSITIVE, report_reason: nil)
+          render json: { message: "Review marked as positive.", positive_count: @review.positive_count }, status: :ok
+        else
+          render json: { error: @vote.errors.full_messages.to_sentence }, status: :unprocessable_entity
+        end
+      end
+
+      def set_negative_vote
+        if @vote.update(vote_type: Spree::ReviewVote::NEGATIVE, report_reason: nil)
+          render json: { message: "Review marked as negative.", negative_count: @review.negative_count }, status: :ok
+        else
+          render json: { error: @vote.errors.full_messages.to_sentence }, status: :unprocessable_entity
+        end
+      end
+
+      def flag_review
+        if @vote.update(vote_type: Spree::ReviewVote::REPORT, report_reason: params[:report_reason])
+          render json: { message: "Review marked as flagged.", flag_count: @review.flag_count }, status: :ok
+        else
+          render json: { error: @vote.errors.full_messages.to_sentence }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def permitted_review_attributes
@@ -107,6 +132,10 @@ module Spree
       # Operates on params
       def sanitize_rating
         params[:rating].sub!(/\s*[^0-9]*\z/, '') if params[:rating].present?
+      end
+
+      def initialize_review_vote
+        @vote = @review.review_votes.find_or_initialize_by(user_id: @current_api_user.id)
       end
     end
   end
