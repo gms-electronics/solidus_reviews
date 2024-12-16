@@ -7,10 +7,12 @@
   <% end %>
 
   <%= I18n.t("spree.was_this_review_helpful") %>
-  <% for i in 1..NB_STARS %>
-    <%= radio_button_tag "feedback_review[rating]", i, false, class: "star" %>
-  <% end %>
-
+  <div class="stars stars-small">
+    <% for i in 1..NB_STARS %>
+      <%= radio_button_tag "feedback_review[rating]", i, false, class: "star" %>
+    <% end %>
+    <i></i>
+  </div>
   <button class="feedback-review"><span><%= I18n.t("spree.say_yes") %></span></button>
 <% end %>
 
