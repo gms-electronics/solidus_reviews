@@ -21,6 +21,18 @@ module Spree
     after_commit :increment_vote_count, on: :create
     after_commit :update_vote_count, on: :update
 
+    def update_vote(vote_type, report_reason = nil, reporter_ip_address = nil)
+      self.vote_type = vote_type
+      self.report_reason = report_reason if report_reason.present?
+      self.reporter_ip_address = reporter_ip_address if reporter_ip_address.present?
+
+      save!
+    end
+
+    def self.user_voted?(review, vote_type, user)
+      exists?(review_id: review.id, vote_type: vote_type, user_id: user&.id)
+    end
+
     def validate_vote_type_change
       return unless vote_type == vote_type_was
 

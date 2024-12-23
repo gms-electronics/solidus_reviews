@@ -2,7 +2,11 @@
 
 class ReviewsController < StoreController
   helper Spree::BaseHelper
-  before_action :load_product, only: [:index, :new, :create, :edit, :update]
+  include ReviewVoting
+
+  before_action :load_product, only: [:index, :new, :create, :edit, :update, :set_positive_vote, :set_negative_vote, :flag_review]
+  before_action :load_review, only: [:set_positive_vote, :set_negative_vote, :flag_review]
+  before_action :initialize_review_vote, only: [:set_positive_vote, :set_negative_vote, :flag_review]
 
   def index
     @approved_reviews = Spree::Review.approved.where(product: @product)
@@ -67,6 +71,14 @@ class ReviewsController < StoreController
 
   def load_product
     @product = Spree::Product.friendly.find(params[:product_id])
+  end
+
+  def load_review
+    @review = Spree::Review.find(params[:id])
+  end
+
+  def initialize_review_vote
+    @vote = @review.review_votes.find_or_initialize_by(user_id: spree_current_user.id)
   end
 
   def permitted_review_attributes

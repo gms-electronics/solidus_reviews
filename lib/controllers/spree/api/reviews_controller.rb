@@ -3,6 +3,7 @@
 module Spree
   module Api
     class ReviewsController < Spree::Api::BaseController
+      include ReviewVoting
       respond_to :json
 
       before_action :load_review, only: [:show, :update, :destroy, :set_positive_vote, :set_negative_vote, :flag_review]
@@ -62,30 +63,6 @@ module Spree
           render json: @review, status: :ok
         else
           invalid_resource!(@review)
-        end
-      end
-
-      def set_positive_vote
-        if @vote.update(vote_type: Spree::ReviewVote::POSITIVE, report_reason: nil)
-          render json: { message: "Review marked as positive.", positive_count: @review.positive_count }, status: :ok
-        else
-          render json: { error: @vote.errors.full_messages.to_sentence }, status: :unprocessable_entity
-        end
-      end
-
-      def set_negative_vote
-        if @vote.update(vote_type: Spree::ReviewVote::NEGATIVE, report_reason: nil)
-          render json: { message: "Review marked as negative.", negative_count: @review.negative_count }, status: :ok
-        else
-          render json: { error: @vote.errors.full_messages.to_sentence }, status: :unprocessable_entity
-        end
-      end
-
-      def flag_review
-        if @vote.update(vote_type: Spree::ReviewVote::REPORT, report_reason: params[:report_reason])
-          render json: { message: "Review marked as flagged.", flag_count: @review.flag_count }, status: :ok
-        else
-          render json: { error: @vote.errors.full_messages.to_sentence }, status: :unprocessable_entity
         end
       end
 
