@@ -1,0 +1,25 @@
+<div class="col-span-full pt-12">
+  <section class="wrapper mb-12 ">
+    <div class="flex items-center justify-between mb-7">
+      <h3 class="font-serif text-h4 md:text-h3">Reviews</h3>
+      <%= link_to I18n.t("spree.write_your_own_review"), new_product_review_path(@product), class: "w-fit py-3 px-7 rounded-full text-body-sm font-sans-md tracking-wider leading-none uppercase whitespace-nowrap transition-colors duration-200 bg-red-500 text-white hover:bg-red-700 false false ",
+                rel: 'nofollow' %>
+    </div>
+    <div class="h-full flex flex-col">
+      <section class="h-full">
+        <div class="flex items-start">
+          <div class="ml-6">
+            <% if Spree::Reviews::Config[:include_unapproved_reviews] == false and @product.reviews.approved.count == 0 %>
+              <p class="reviews-none"><%= I18n.t("spree.no_reviews_available") %></p>
+            <% else %>
+              <% for review in (Spree::Reviews::Config[:track_locale] ? @product.reviews.localized(I18n.locale) : @product.reviews).default_approval_filter.preview %>
+                <%= render 'products/shared/new_design_review', review: review %>
+                <%= render 'products/shared/thumbs', review: review, product: @product %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+</div>
