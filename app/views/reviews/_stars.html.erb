@@ -1,4 +1,4 @@
-<div class="stars <%= 'stars-small' if defined?(small_size) && small_size == true %>">
+<div class="stars <%= 'stars-small' if defined?(small_size) && small_size == true %> relative inline-flex">
   <% if defined? edit_enabled
       state = ""
       name  = "review[rating]"
@@ -7,10 +7,18 @@
       name  = defined?(review).nil? ? Time.now.tv_usec.to_s : "review_#{review}"
     end %>
   <% for i in 1..NB_STARS %>
-    <input name="<%= name %>"
-           type="radio"
-           value="<%= pluralize(i, 'stars') %>" <%= state %>
-           <%= "checked" if i == stars %> />
+    <% if state == 'disabled' %>
+      <svg class="w-6 h-6 <%= i <= stars ? 'fill-primary' : 'fill-gray-200' %>">
+        <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-star-fill"></use>
+      </svg>
+    <% else %>
+      <input name="<%= name %>"
+             type="radio"
+             value="<%= pluralize(i, 'stars') %>" <%= state %>
+             <%= "checked" if i == stars %> class="m-0 opacity-0 cursor-pointer" />
+    <% end %>
   <% end %>
-  <i></i>
+  <% if state != 'disabled' %>
+    <i class="absolute" ></i>
+  <% end %>
 </div>

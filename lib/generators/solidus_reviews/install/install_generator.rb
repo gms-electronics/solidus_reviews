@@ -24,6 +24,35 @@ module SolidusReviews
         inject_into_file 'vendor/assets/stylesheets/spree/backend/all.css', " *= require spree/backend/solidus_reviews\n", before: %r{\*/}, verbose: true # rubocop:disable Layout/LineLength
       end
 
+      def add_import_to_application_tailwind
+        template 'star_tailwind.css', 'app/assets/stylesheets/solidus_review_stars.css'
+
+        import_statement = "@import 'solidus_review_stars.css';\n"
+        tailwind_file = "app/assets/stylesheets/application.tailwind.css"
+
+        if File.exist?(tailwind_file)
+          prepend_to_file tailwind_file, import_statement
+          Rails.logger.debug "Added import statement for solidus_review_stars.css to application.tailwind.css"
+        else
+          Rails.logger.debug "application.tailwind.css file not found. Ensure Tailwind is installed in the host app."
+        end
+      end
+
+      def add_to_tailwind_config
+        tailwind_config_path = Rails.root.join('config/tailwind.config.js')
+
+        config_content = File.read(tailwind_config_path)
+
+        if config_content.include?("safelist:")
+          say("Safelist already exists, skipping injection.")
+        else
+          inject_into_file tailwind_config_path, after: "require('@tailwindcss/typography')
+          ]" do
+            "\n      ,safelist: [\n        'stars',\n        'stars-small',\n        'fill-gray-200',\n        'fill-primary',\n      ]"
+          end
+        end
+      end
+
       def add_routes
         route <<~ROUTES
           resources :products, only: [:show] do
