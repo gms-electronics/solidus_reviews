@@ -1,0 +1,18 @@
+<div class="flex item-center gap-3" data-review-id="<%= review.id %>">
+  <%= form_with url: set_positive_vote_product_review_path(@product.slug,review), method: :post, remote: true, local: false, authenticity_token: false do |form| %>
+    <%= form.button class: "thumb-up-btn", title: "Like" do %>
+      <svg class="w-6 h-6">
+        <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-thumb-up-<%= Spree::ReviewVote.user_voted?(review, Spree::ReviewVote::POSITIVE, spree_current_user) ? 'fill' : 'line' %>"></use>
+      </svg>
+    <% end %>
+  <% end %>
+  <span class="positive-count"><%= review.positive_count %></span>
+  <%= form_with url: set_negative_vote_product_review_path(@product.slug,review), method: :post, remote: true, local: false, authenticity_token: false do |form| %>
+    <%= form.button class: "thumb-down-btn", title: "Dislike" do %>
+      <svg class="w-6 h-6">
+        <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-thumb-down-<%= Spree::ReviewVote.user_voted?(review, Spree::ReviewVote::NEGATIVE, spree_current_user) ? 'fill' : 'line' %>"></use>
+      </svg>
+    <% end %>
+  <% end %>
+  <span class="negative-count"><%= review.negative_count %></span>
+</div>

@@ -1,0 +1,18 @@
+document.querySelector('[data-review-id="<%= @review.id %>"] .positive-count')
+  .textContent = "<%= @review.positive_count %>";
+
+var thumbUpSvg = document.querySelector('[data-review-id="<%= @review.id %>"] .thumb-up-btn use');
+var thumbdownSvg = document.querySelector('[data-review-id="<%= @review.id %>"] .thumb-down-btn use');
+
+if (thumbUpSvg && thumbdownSvg) {
+  thumbUpSvg.setAttribute('xlink:href',
+    "<%= image_path('remixicon.symbol.svg') %>#ri-thumb-up-<%= Spree::ReviewVote.user_voted?(@review, Spree::ReviewVote::POSITIVE, spree_current_user) ? 'fill' : 'line' %>"
+  );
+
+  thumbdownSvg.setAttribute('xlink:href',
+    "<%= image_path('remixicon.symbol.svg') %>#ri-thumb-down-<%= Spree::ReviewVote.user_voted?(@review, Spree::ReviewVote::NEGATIVE, spree_current_user) ? 'fill' : 'line' %>"
+  );
+}
+
+document.querySelector('[data-review-id="<%= @review.id %>"] .negative-count')
+  .textContent = "<%= @review.negative_count %>";
