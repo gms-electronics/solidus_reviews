@@ -57,6 +57,11 @@ module SolidusReviews
         route <<~ROUTES
           resources :products, only: [:show] do
             resources :reviews, only: [:index, :new, :create, :edit, :update] do
+              member do
+                post :set_positive_vote
+                post :set_negative_vote
+                post :flag_review
+              end
               resources :feedback_reviews, only: [:create]
             end
           end
