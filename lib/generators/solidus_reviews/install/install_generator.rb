@@ -24,6 +24,18 @@ module SolidusReviews
         inject_into_file 'vendor/assets/stylesheets/spree/backend/all.css', " *= require spree/backend/solidus_reviews\n", before: %r{\*/}, verbose: true # rubocop:disable Layout/LineLength
       end
 
+      def add_reviews_and_star_overview_to_product_pages
+        file_path_product_show = "app/views/products/show.html.erb"
+        render_statement_product_show = "<%= render 'products/shared/new_design_reviews', product: @product %>\n"
+
+        file_path_product_header = "app/views/products/_product_header.html.erb"
+        render_statement_product_header = "<%= render 'products/shared/star_overview', product: @product %>"
+
+        insert_into_file file_path_product_show, render_statement_product_show, before: '<div class="col-span-full pt-12">'
+        insert_into_file file_path_product_header, render_statement_product_header,
+          before: "<% if product.price_for_options(current_pricing_options)&.money and !product.price.nil? %>"
+      end
+
       def add_import_to_application_tailwind
         template 'star_tailwind.css', 'app/assets/stylesheets/solidus_review_stars.css'
 
