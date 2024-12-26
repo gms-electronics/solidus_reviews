@@ -36,7 +36,7 @@ module ReviewVoting
 
   def handle_vote_response(vote_type, count)
     respond_to do |format|
-      format.js { render 'reviews/set_thumb_svg_and_count' }
+      format.js { render 'reviews/update_review_votes' }
       format.html { redirect_to product_path(@product), notice: "Review marked as #{vote_type}" }
       format.json { render json: { message: "Review marked as #{vote_type}.", "#{vote_type}_count".to_sym => count }, status: :ok }
     end

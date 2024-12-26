@@ -1,28 +1,32 @@
 <div class="review" itemprop="reviews" itemscope itemtype="http://schema.org/Review">
-  <span class="reviews-rating" title="<%= txt_stars(review.rating) %>">
-    <%= render "reviews/stars", stars: review.rating %>
-  </span>
   <% if review.approved? || Spree::Reviews::Config[:display_unapproved_reviews] %>
-    <span itemprop="name"><%= review.title %></span>
     <br/>
-    <span class="attribution"><%= I18n.t("spree.submitted_on") %> <strong><%= l review.created_at.to_date %></strong></span>
     <meta itemprop="datePublished" content="<%= review.created_at.to_date.to_s %>" />
-
     <meta itemprop="reviewRating" content="<%= review.rating %>" />
     <% if review.show_identifier %>
       <% if Spree::Reviews::Config[:show_email] && review.user %>
-        <span itemprop="author"><%= review.user.email %></span>
+        <span class="text-gray-600 font-bold"><%= review.user.email %></span>
       <% else %>
-        <span itemprop="author"><%= review.name %></span>
+        <p class="flex items-baseline">
+          <span class="text-gray-600 font-bold"><%= review.name %></span>
+          <% if Spree::Reviews::Config[:show_verified_purchaser] && review.verified_purchaser? %>
+            <span class="ml-2 text-green-600 text-xs"><%= I18n.t("spree.verified_purchaser") %></span>
+          <% end %>
+        </p>
+        <span itemprop="author"></span>
       <% end %>
     <% else %>
-        <span itemprop="author"><%= I18n.t("spree.anonymous") %></span>
+      <span itemprop="author"><%= I18n.t("spree.anonymous") %></span>
     <% end %>
-    <% if Spree::Reviews::Config[:show_verified_purchaser] && review.verified_purchaser? %>
-      <div><%= I18n.t("spree.verified_purchaser") %></div>
-    <% end %>
-    <div itemprop="reviewBody">
-      <%= simple_format(review.review) %>
+    <div class="mt-3 mb-3 flex justify-left gap-2">
+      <div class="flex">
+        <%= render "reviews/stars", stars: review.rating %>
+        <span class="ml-2 font-sans"><%= txt_stars(review.rating) %> <%= I18n.t("spree.stars") %></span>
+      </div>
+    </div>
+    <div class="mt-3">
+      <span class="font-bold"><%= review.title %></span>
+      <p class="mt-1"><%= simple_format(review.review) %></p>
     </div>
     <% if Spree::Reviews::Config[:allow_image_upload] %>
       <% review.images.each do |image| %>

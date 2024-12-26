@@ -15,21 +15,20 @@ module SolidusReviews
       end
 
       def add_javascripts
-        append_file 'vendor/assets/javascripts/spree/frontend/all.js', "//= require spree/frontend/solidus_reviews\n"
+        append_file 'app/assets/javascripts/solidus_starter_frontend.js', "//= require spree/frontend/solidus_reviews\n"
         append_file 'vendor/assets/javascripts/spree/backend/all.js', "//= require spree/backend/solidus_reviews\n"
       end
 
       def add_stylesheets
-        inject_into_file 'vendor/assets/stylesheets/spree/frontend/all.css', " *= require spree/frontend/solidus_reviews\n", before: %r{\*/}, verbose: true # rubocop:disable Layout/LineLength
+        inject_into_file 'app/assets/stylesheets/solidus_starter_frontend.css', " *= require spree/frontend/solidus_reviews\n", before: %r{\*/}, verbose: true # rubocop:disable Layout/LineLength
         inject_into_file 'vendor/assets/stylesheets/spree/backend/all.css', " *= require spree/backend/solidus_reviews\n", before: %r{\*/}, verbose: true # rubocop:disable Layout/LineLength
       end
 
       def add_reviews_and_star_overview_to_product_pages
         file_path_product_show = "app/views/products/show.html.erb"
-        render_statement_product_show = "<%= render 'products/shared/new_design_reviews', product: @product %>\n"
-
+        render_statement_product_show = "<%= render 'products/shared/reviews', product: @product %> \n    "
         file_path_product_header = "app/views/products/_product_header.html.erb"
-        render_statement_product_header = "<%= render 'products/shared/star_overview', product: @product %>"
+        render_statement_product_header = "<%= render 'products/shared/star_overview', product: @product %> \n  "
 
         insert_into_file file_path_product_show, render_statement_product_show, before: '<div class="col-span-full pt-12">'
         insert_into_file file_path_product_header, render_statement_product_header,
@@ -60,7 +59,7 @@ module SolidusReviews
         else
           inject_into_file tailwind_config_path, after: "require('@tailwindcss/typography')
           ]" do
-            "\n      ,safelist: [\n        'stars',\n        'stars-small',\n        'fill-gray-200',\n        'fill-primary',\n      ]"
+            ",\n  safelist: [\n        'stars',\n        'stars-small',\n        'fill-gray-200',\n        'fill-primary',\n  ]"
           end
         end
       end
