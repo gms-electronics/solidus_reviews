@@ -57,8 +57,7 @@ module SolidusReviews
         if config_content.include?("safelist:")
           say("Safelist already exists, skipping injection.")
         else
-          inject_into_file tailwind_config_path, after: "require('@tailwindcss/typography')
-          ]" do
+          inject_into_file tailwind_config_path, after: "require('@tailwindcss/typography')\n  ]" do
             ",\n  safelist: [\n    'stars',\n    'stars-small',\n    'fill-gray-200',\n    'fill-primary',\n    'inset-0',\n    'bg-opacity-75',\n    'bg-gray-800',\n    'float-right',\n    'w-6/12'\n  ]"
           end
         end
