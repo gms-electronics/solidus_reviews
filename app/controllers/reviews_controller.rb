@@ -15,6 +15,9 @@ class ReviewsController < StoreController
   def new
     @review = Spree::Review.new(product: @product)
     authorize! :create, @review
+    respond_to do |format|
+      format.html { render layout: false }
+    end
   end
 
   def edit
@@ -41,10 +44,10 @@ class ReviewsController < StoreController
 
     authorize! :create, @review
     if @review.save
-      flash[:notice] = I18n.t('spree.review_successfully_submitted')
-      redirect_to product_path(@product)
+      flash.now[:notice] = I18n.t('spree.review_successfully_submitted')
+      render json: { success: true, notice: flash.now[:notice] }
     else
-      render :new
+      render partial: "reviews/form", locals: { review: @review, product: @product }, status: :unprocessable_entity
     end
   end
 

@@ -1,41 +1,43 @@
-<%= form_for review, url: product_reviews_path(product), html: { method: :post, multipart: true} do |f| %>
-  <%= render "spree/shared/error_messages", target: review %>
+<%= form_for review, url: product_reviews_path(product), remote: true, html: { method: :post, multipart: true } do |f| %>
 
-  <p class="review_rating_field">
-    <%= f.label :rating %> <span class="required">*</span><br />
+  <%= render "reviews/error_messages", target: review %>
+
+  <p>
+    <%= f.label :rating, class: "text-xl font-bold mb-4" %> <span class="required text-red-500">*</span><br />
     <%= render "reviews/stars", stars: review.rating, edit_enabled: true %>
   </p>
 
-  <p class="review_name_field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, maxlength: "255", size: "50" %>
+  <p>
+    <%= f.label :name, class: "text-xl font-bold mb-4" %><br />
+    <%= f.text_field :name, maxlength: "255", size: "50"%>
   </p>
 
-  <p class="review_title_field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title, maxlength: "255", size: "50" %>
+  <p>
+    <%= f.label :title, class: "text-xl font-bold mb-4" %><br />
+    <%= f.text_field :title, maxlength: "255", size: "50"%>
   </p>
 
-  <p class="review_review_field">
-    <%= f.label :review %><br />
+  <p>
+    <%= f.label :review, class: "text-xl font-bold mb-4" %><br />
     <%= f.text_area :review, wrap: "virtual", rows: "10", cols: "50" %>
   </p>
 
   <% if Spree::Reviews::Config[:allow_image_upload] %>
-    <p class="review_images_field">
-      <%= f.label :images %><br>
-      <%= f.file_field :images, :accept => "image/*", multiple: true %>
+    <p>
+      <%= f.label :images, class: "text-xl font-bold mb-4" %><br>
+      <%= f.file_field :images, accept: "image/*", multiple: true %>
     </p>
   <% end %>
 
   <% if Spree::Reviews::Config[:render_show_identifier_checkbox] %>
-    <p class="review_show_identifier_field">
-      <%= f.label :show_identifier %><br />
+    <p>
+      <%= f.label :show_identifier, class: "text-xl font-bold mb-4" %><br />
       <%= f.check_box :show_identifier, wrap: "virtual", rows: "10", cols: "50", checked: true %>
     </p>
   <% end %>
 
-  <p class="review_submit">
-    <%= f.submit I18n.t("spree.submit_your_review"), class: "button bg_darkfirst" %>
+  <p class="flex flex-col items-center">
+    <%= f.submit I18n.t("spree.submit_your_review"), class: "w-fit py-3 px-7 rounded-full text-body-sm font-sans-md tracking-wider leading-none uppercase whitespace-nowrap transition-colors duration-200 bg-red-500 text-white hover:bg-red-700" %>
   </p>
+
 <% end %>
