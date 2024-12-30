@@ -20,8 +20,9 @@ module ReviewVoting
   end
 
   def flag_review
-    if @vote.update_vote(Spree::ReviewVote::REPORT, params[:report_reason], request.remote_ip)
+    if @vote.update_vote(Spree::ReviewVote::REPORT, params[:report_reason], params[:comment], request.remote_ip)
       respond_to do |format|
+        format.js { render 'reviews/update_review_votes' }
         format.html { redirect_to product_path(@product), notice: 'Review marked as flagged' }
         format.json {
           render json: { message: "Review marked as flagged.", flag_count: @review.flag_count, reporter: @vote.reporter_ip_address }, status: :ok

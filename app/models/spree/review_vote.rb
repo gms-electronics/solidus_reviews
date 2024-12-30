@@ -21,10 +21,11 @@ module Spree
     after_commit :increment_vote_count, on: :create
     after_commit :update_vote_count, on: :update
 
-    def update_vote(vote_type, report_reason = nil, reporter_ip_address = nil)
+    def update_vote(vote_type, report_reason = nil, comment = nil, reporter_ip_address = nil)
       ActiveRecord::Base.transaction do
         self.vote_type = vote_type
         self.report_reason = report_reason.presence
+        self.comment = comment.presence
         self.reporter_ip_address = reporter_ip_address.presence
 
         save!

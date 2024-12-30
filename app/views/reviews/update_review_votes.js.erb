@@ -5,19 +5,24 @@ var negativeCountElement = reviewElement.querySelector('.negative-count');
 
 var thumbUpButton = reviewElement.querySelector('.thumb-up-btn');
 var thumbDownButton = reviewElement.querySelector('.thumb-down-btn');
+var flagReportButton = reviewElement.querySelector('.flag-review-btn');
 
 var thumbUpSvg = thumbUpButton.querySelector('use');
 var thumbDownSvg = thumbDownButton.querySelector('use');
-
+var flagReportSvg = flagReportButton.querySelector('use');
 
 positiveCountElement.textContent = "<%= @review.positive_count %>";
 negativeCountElement.textContent = "<%= @review.negative_count %>";
 
 var userVotedPositive = "<%= Spree::ReviewVote.user_voted?(@review, Spree::ReviewVote::POSITIVE, spree_current_user) %>" === "true";
 var userVotedNegative = "<%= Spree::ReviewVote.user_voted?(@review, Spree::ReviewVote::NEGATIVE, spree_current_user) %>" === "true";
+var userVotedReport = "<%= Spree::ReviewVote.user_voted?(@review, Spree::ReviewVote::REPORT, spree_current_user) %>" === "true";
 
 thumbUpButton.toggleAttribute('disabled', userVotedPositive);
 thumbDownButton.toggleAttribute('disabled', userVotedNegative);
+flagReportButton.toggleAttribute('disabled', userVotedReport);
+
+document.getElementById('flagReviewModal<%= @review.id %>').classList.add('hidden');
 
 thumbUpSvg.setAttribute('xlink:href',
   "<%= image_path('remixicon.symbol.svg') %>#ri-thumb-up-" + (userVotedPositive ? 'fill' : 'line')
@@ -25,4 +30,8 @@ thumbUpSvg.setAttribute('xlink:href',
 
 thumbDownSvg.setAttribute('xlink:href',
   "<%= image_path('remixicon.symbol.svg') %>#ri-thumb-down-" + (userVotedNegative ? 'fill' : 'line')
+);
+
+flagReportSvg.setAttribute('xlink:href',
+  "<%= image_path('remixicon.symbol.svg') %>#ri-flag-" + (userVotedReport ? 'fill' : 'line')
 );
