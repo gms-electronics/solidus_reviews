@@ -9,6 +9,8 @@ module Spree
       before_action :load_review, only: [:show, :update, :destroy, :set_positive_vote, :set_negative_vote, :flag_review]
       before_action :initialize_review_vote, only: [:set_positive_vote, :set_negative_vote, :flag_review]
       before_action :load_product, :find_review_user
+      before_action :load_store, only: [:create, :update]
+
       before_action :sanitize_rating, only: [:create, :update]
       before_action :prevent_multiple_reviews, only: [:create]
 
@@ -32,6 +34,7 @@ module Spree
 
         @review = Spree::Review.new(review_params)
         @review.product = @product
+        @review.store = @store
         @review.user = @current_api_user
         @review.ip_address = request.remote_ip
         @review.locale = I18n.locale.to_s if Spree::Reviews::Config[:track_locale]
@@ -95,6 +98,10 @@ module Spree
       # Loads any review that is shared between the user and product
       def load_review
         @review = Spree::Review.find(params[:id])
+      end
+
+      def load_store
+        @store = current_store
       end
 
       # Ensures that a user can't create more than 1 review per product
