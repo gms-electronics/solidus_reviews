@@ -18,9 +18,11 @@ var userVotedPositive = "<%= Spree::ReviewVote.user_voted?(@review, Spree::Revie
 var userVotedNegative = "<%= Spree::ReviewVote.user_voted?(@review, Spree::ReviewVote::NEGATIVE, spree_current_user) %>" === "true";
 var userVotedReport = "<%= Spree::ReviewVote.user_voted?(@review, Spree::ReviewVote::REPORT, spree_current_user) %>" === "true";
 
-thumbUpButton.toggleAttribute('disabled', userVotedPositive);
-thumbDownButton.toggleAttribute('disabled', userVotedNegative);
 flagReportButton.toggleAttribute('disabled', userVotedReport);
+thumbUpButton.querySelector('svg').classList.toggle('fill-primary', userVotedPositive);
+thumbDownButton.querySelector('svg').classList.toggle('fill-primary', userVotedNegative);
+flagReportButton.querySelector('svg').classList.toggle('fill-primary', userVotedReport);
+
 
 document.getElementById('flagReviewModal<%= @review.id %>').classList.add('hidden');
 

@@ -36,6 +36,20 @@ module Spree
       exists?(review_id: review.id, vote_type: vote_type, user_id: user&.id)
     end
 
+    def remove_vote(vote_type)
+      ActiveRecord::Base.transaction do
+        vote = self.class.find_by(review_id: review.id, user_id: user.id, vote_type: vote_type)
+        if vote
+          vote.destroy
+          update_vote_counter(vote_type, decrement: true)
+        end
+      end
+    end
+
+    def self.vote_type_value(key)
+      VOTE_TYPES[key]
+    end
+
     def validate_vote_type_change
       return unless vote_type == vote_type_was
 
