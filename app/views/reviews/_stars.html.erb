@@ -8,9 +8,19 @@
     end %>
   <% for i in 1..NB_STARS %>
     <% if state == 'disabled' %>
-      <svg class="w-6 h-6 <%= i <= stars ? 'fill-primary' : 'fill-gray-200' %>">
-        <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-star-fill"></use>
-      </svg>
+      <% if i <= stars.to_i %>
+        <svg class="w-6 h-6 fill-primary">
+          <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-star-fill"></use>
+        </svg>
+      <% elsif i - 0.5 == stars.to_f %>
+        <svg class="w-6 h-6 fill-primary">
+          <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-star-half-fill"></use>
+        </svg>
+      <% else %>
+        <svg class="w-6 h-6 fill-gray-200">
+          <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-star-fill"></use>
+        </svg>
+      <% end %>
     <% else %>
       <input name="<%= name %>"
              type="radio"
