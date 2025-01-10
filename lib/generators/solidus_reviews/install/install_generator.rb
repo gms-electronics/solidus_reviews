@@ -29,10 +29,14 @@ module SolidusReviews
         render_statement_product_show = "<%= render 'products/shared/reviews', product: @product %> \n    "
         file_path_product_header = "app/views/products/_product_header.html.erb"
         render_statement_product_header = "<%= render 'products/shared/star_overview', product: @product %> \n  "
+        file_path_product_component = "app/components/product_card_component.html.erb"
+        render_statement_product_component = "<%= render 'products/shared/product_card_star_overview', product: @product %>\n        "
 
         insert_into_file file_path_product_show, render_statement_product_show, before: '<div class="col-span-full pt-12">'
         insert_into_file file_path_product_header, render_statement_product_header,
           before: "<% if product.price_for_options(current_pricing_options)&.money and !product.price.nil? %>"
+        insert_into_file file_path_product_component, render_statement_product_component,
+          before: "<span class=\"mb-3 font-sansserif text-gray-800 dark:text-gray-50 <%= price_classes %>\""
       end
 
       def add_import_to_application_tailwind
