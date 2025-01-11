@@ -6,7 +6,7 @@ class Spree::Review < ApplicationRecord
   belongs_to :store
   has_many   :feedback_reviews, dependent: :destroy
   has_many :review_votes, dependent: :destroy
-  has_many   :images, -> { order(:position) }, as: :viewable,
+  has_many :images, -> { order(:position) }, as: :viewable,
     dependent: :destroy, class_name: "Spree::Image"
 
   before_save :verify_purchaser
