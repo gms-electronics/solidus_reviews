@@ -5,6 +5,7 @@ module SolidusReviews
     class InstallGenerator < Rails::Generators::Base
       class_option :auto_run_migrations, type: :boolean, default: false
       source_root File.expand_path('templates', __dir__)
+      class_option :specs, type: :string, enum: %w[all], hide: true
 
       def self.exit_on_failure?
         true
@@ -67,6 +68,18 @@ module SolidusReviews
         end
       end
 
+      def generate_specs
+        return unless options[:specs] == 'all'
+
+        spec_path = engine.root.join('spec')
+
+        if spec_path.directory?
+          directory spec_path.to_s, 'spec'
+        else
+          say_status :error, "Spec directory not found: #{spec_path}", :red
+        end
+      end
+
       def add_routes
         route <<~ROUTES
           resources :products, only: [:show] do
@@ -93,6 +106,10 @@ module SolidusReviews
         else
           puts 'Skipping bin/rails db:migrate, don\'t forget to run it!' # rubocop:disable Rails/Output
         end
+      end
+
+      def engine
+        SolidusReviews::Engine
       end
     end
   end

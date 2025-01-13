@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'solidus_reviews_helper'
 
-describe Spree::ReviewsConfiguration do
+RSpec.describe Spree::ReviewsConfiguration do
   subject { described_class.new }
 
   before do

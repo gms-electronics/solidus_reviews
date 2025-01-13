@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'solidus_reviews_helper'
 
-describe Spree::ReviewVote do
+RSpec.describe Spree::ReviewVote do
   let(:review) { create(:review, positive_count: 0, negative_count: 0, flag_count: 0) }
   let(:user) { create(:user) }
 

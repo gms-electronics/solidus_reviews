@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'solidus_reviews_helper'
 
-describe Spree::Review do
+RSpec.describe Spree::Review do
   context 'validations' do
     it 'validates by default' do
       expect(build(:review)).to be_valid

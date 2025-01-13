@@ -67,7 +67,7 @@ class ReviewsController < StoreController
     authorize! :update, @review
     if @review.update(review_params)
       flash[:notice] = I18n.t('spree.review_successfully_submitted')
-      redirect_to spree.product_path(@product)
+      redirect_to product_path(@product)
     else
       render :edit
     end

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'solidus_reviews_helper'
 
-describe Spree::Api::ReviewsController, type: :controller do
+RSpec.describe Spree::Api::ReviewsController, type: :controller do
   render_views
 
   let!(:user) { create(:user) }
-  let!(:review) { create(:review, rating: 5) }
+  let(:store) { create(:store) }
+  let!(:review) { create(:review, rating: 5, store: store) }
   let!(:product) { review.product }
 
   before do

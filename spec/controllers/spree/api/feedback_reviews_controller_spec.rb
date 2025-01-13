@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'solidus_reviews_helper'
 
-describe Spree::Api::FeedbackReviewsController, type: :controller do
+RSpec.describe Spree::Api::FeedbackReviewsController, type: :controller do
   render_views
 
   let!(:user) { create(:user) }

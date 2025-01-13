@@ -10,7 +10,7 @@ FactoryBot.define do
     show_identifier { true }
     user
     product
-
+    store
     trait :approved do
       approved { true }
     end

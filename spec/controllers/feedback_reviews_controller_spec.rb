@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'solidus_reviews_helper'
 
-describe Spree::FeedbackReviewsController do
+RSpec.describe FeedbackReviewsController do
   let(:user) { create(:user) }
   let(:product) { create(:product) }
   let(:review) { create(:review, user: user) }
   let(:valid_attributes) do
     { review_id: review.id,
+      product_id: product.id,
       user_id: user.id,
       feedback_review: {
         rating: '4 stars',
@@ -27,6 +28,7 @@ describe Spree::FeedbackReviewsController do
       comment = ['Thanks for your review!', 'Cheers'].join("\n")
       expect {
         post :create, params: { review_id: review.id,
+                                product_id: product.id,
                                 feedback_review: {
                                   comment: comment,
                                   rating: rating
