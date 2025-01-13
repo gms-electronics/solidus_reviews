@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'solidus_reviews_helper'
 
 require "cancan/matchers"
 
-describe Spree::ReviewsAbility do
+RSpec.describe Spree::ReviewsAbility do
   describe '.allow_anonymous_reviews?' do
     it 'depends on Spree::Reviews::Config[:require_login]' do
       stub_spree_preferences(Spree::Reviews::Config, require_login: false)

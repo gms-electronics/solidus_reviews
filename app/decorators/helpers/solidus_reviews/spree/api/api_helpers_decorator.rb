@@ -7,7 +7,7 @@ module SolidusReviews
         def self.prepended(base)
           base.module_eval do
             @@review_attributes = [
-              :id, :product_id, :name, :location, :rating, :title, :review, :approved,
+              :id, :product_id, :name, :rating, :title, :review, :approved,
               :created_at, :updated_at, :user_id, :ip_address, :locale, :show_identifier,
               :verified_purchaser
             ]

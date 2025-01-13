@@ -35,6 +35,7 @@ en:
       one: based upon one review
       other: "based upon %{count} reviews"
     by: by
+    downvote_counts: Down-votes
     editing_review_for_html: 'Editing review for %{product_name}'
     error_approve_review: Error approving review
     error_no_product: The reviewed product doesn't exist anymore
@@ -72,6 +73,7 @@ en:
     submit_your_review: Submit your review
     submitted_on: Submitted on
     unapproved_reviews: Unapproved
+    upvote_counts: Up-Votes
     verified_purchaser: Verified purchaser
     voice:
       one: "1 voice"

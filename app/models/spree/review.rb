@@ -3,8 +3,10 @@
 class Spree::Review < ApplicationRecord
   belongs_to :product, touch: true, optional: true
   belongs_to :user, class_name: Spree.user_class.to_s, optional: true
+  belongs_to :store
   has_many   :feedback_reviews, dependent: :destroy
-  has_many   :images, -> { order(:position) }, as: :viewable,
+  has_many :review_votes, dependent: :destroy
+  has_many :images, -> { order(:position) }, as: :viewable,
     dependent: :destroy, class_name: "Spree::Image"
 
   before_save :verify_purchaser
