@@ -84,7 +84,7 @@ RSpec.describe 'Reviews', js: true do
       end
 
       it 'can see create new review button' do
-        expect(page).to have_text I18n.t('spree.write_your_own_review')
+        expect(page).to have_button I18n.t('spree.write_your_own_review')
       end
 
       it 'can create new review' do

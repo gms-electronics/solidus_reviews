@@ -3,6 +3,7 @@
 require 'solidus_reviews_helper'
 
 RSpec.describe Spree::Api::ReviewsController, type: :controller do
+  routes { Spree::Core::Engine.routes }
   render_views
 
   let!(:user) { create(:user) }

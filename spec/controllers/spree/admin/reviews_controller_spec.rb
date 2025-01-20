@@ -3,6 +3,7 @@
 require 'solidus_reviews_helper'
 
 RSpec.describe Spree::Admin::ReviewsController do
+  routes { Spree::Core::Engine.routes }
   stub_authorization!
 
   let(:product) { create(:product) }
