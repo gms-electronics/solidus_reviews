@@ -3,7 +3,7 @@
 set -e
 
 echo "Updating the dummy app..."
-bin/rails-dummy-app generate solidus_reviews:install --force --migrate --specs=all
+bin/rails-dummy-app generate solidus_reviews:install --force --auto-run-migrations --specs=all
 
 cd dummy-app/
 rspec "$@"
