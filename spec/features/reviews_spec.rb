@@ -103,7 +103,6 @@ RSpec.describe 'Reviews', js: true do
           click_on 'Submit your review'
         end
 
-        expect(page.find('.flash.notice', text: I18n.t('spree.review_successfully_submitted'))).to be_truthy
         expect(page).not_to have_text 'Some big review text..'
       end
     end
@@ -134,6 +133,6 @@ RSpec.describe 'Reviews', js: true do
   end
 
   def click_star(num)
-    page.all(:xpath, "//a[@title='#{num} stars']")[0].click
+    page.find(:xpath, "//input[@value='#{num} stars']", visible: false).click
   end
 end

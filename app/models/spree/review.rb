@@ -23,7 +23,7 @@ class Spree::Review < Spree::Base
   scope :localized, ->(lc) { where('spree_reviews.locale = ?', lc) }
   scope :most_recent_first, -> { order('spree_reviews.created_at DESC') }
   scope :oldest_first, -> { reorder('spree_reviews.created_at ASC') }
-  scope :preview, -> { limit(Spree::Reviews::Config[:preview_size]).oldest_first }
+  scope :preview, -> { oldest_first.limit(Spree::Reviews::Config[:preview_size]) }
   scope :approved, -> { where(approved: true) }
   scope :not_approved, -> { where(approved: false) }
   scope :default_approval_filter, -> { Spree::Reviews::Config[:include_unapproved_reviews] ? all : approved }

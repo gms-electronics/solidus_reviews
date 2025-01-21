@@ -237,7 +237,7 @@ RSpec.describe Spree::Api::ReviewsController, type: :controller do
       let!(:vote) { create(:review_vote, :negative, review: review, user: user) }
 
       it 'marks the review as positive' do
-        post :set_positive_vote, params: { id: review.id, token: user.spree_api_key }
+        post :set_positive_vote, params: { id: review.id, token: user.spree_api_key, format: 'json' }
 
         expect(response).to have_http_status(:ok)
         json_response = JSON.parse(response.body)
@@ -255,7 +255,7 @@ RSpec.describe Spree::Api::ReviewsController, type: :controller do
       let!(:vote) { create(:review_vote, review: review, user: user) }
 
       it 'marks the review as negative' do
-        post :set_negative_vote, params: { id: review.id, token: user.spree_api_key }
+        post :set_negative_vote, params: { id: review.id, token: user.spree_api_key, format: 'json' }
 
         expect(response).to have_http_status(:ok)
         json_response = JSON.parse(response.body)
@@ -273,7 +273,7 @@ RSpec.describe Spree::Api::ReviewsController, type: :controller do
       let!(:vote) { create(:review_vote, review: review, user: user) }
 
       it 'marks the review as flagged' do
-        post :flag_review, params: { id: review.id, token: user.spree_api_key, report_reason: 'Abusive Content' }
+        post :flag_review, params: { id: review.id, token: user.spree_api_key, report_reason: 'Abusive Content', format: 'json' }
 
         expect(response).to have_http_status(:ok)
         expect(vote.reload.vote_type).to eq(Spree::ReviewVote::REPORT)
