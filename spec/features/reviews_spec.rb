@@ -100,7 +100,7 @@ RSpec.describe 'Reviews', js: true do
           fill_in 'review_name', with: user.email
           fill_in 'review_title', with: 'Great product!'
           fill_in 'review_review', with: 'Some big review text..'
-          attach_file 'review_images', file_path
+          attach_file('review_images', file_path)
           click_on 'Submit your review'
         end
 
