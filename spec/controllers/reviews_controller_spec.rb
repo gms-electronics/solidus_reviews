@@ -15,7 +15,7 @@ RSpec.describe ReviewsController, type: :controller do
                 title: 'Great Product',
                 review: 'Some big review text..',
                 images: [
-                  fixture_file_upload(File.new('spec/fixtures/thinking-cat.jpg'))
+                  fixture_file_upload(File.new('spec/fixtures/files/thinking-cat.jpg'))
                 ] } }
   end
 
@@ -240,7 +240,7 @@ RSpec.describe ReviewsController, type: :controller do
         id: review.id,
         review: {
           images: [
-            fixture_file_upload(File.new('spec/fixtures/thinking-cat.jpg')),
+            fixture_file_upload(File.new('spec/fixtures/files/thinking-cat.jpg')),
           ]
         }
       }

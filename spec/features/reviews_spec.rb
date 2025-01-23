@@ -7,6 +7,7 @@ RSpec.describe 'Reviews', js: true do
   let!(:someone) { create(:user, email: 'ryan@spree.com') }
   let!(:review) { create(:review, :approved, user: someone) }
   let!(:unapproved_review) { create(:review, product: review.product) }
+  let(:file_path) { file_fixture("thinking-cat.jpg") }
 
   before do
     stub_spree_preferences(Spree::Reviews::Config, include_unapproved_reviews: false)
@@ -99,7 +100,7 @@ RSpec.describe 'Reviews', js: true do
           fill_in 'review_name', with: user.email
           fill_in 'review_title', with: 'Great product!'
           fill_in 'review_review', with: 'Some big review text..'
-          attach_file 'review_images', Rails.root.join('spec', 'fixtures', 'thinking-cat.jpg')
+          attach_file 'review_images', file_path
           click_on 'Submit your review'
         end
 
