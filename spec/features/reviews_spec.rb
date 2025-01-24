@@ -89,6 +89,8 @@ RSpec.describe 'Reviews', js: true do
       end
 
       it 'can create new review' do
+        stub_spree_preferences(Spree::Reviews::Config, allow_image_upload: true)
+
         click_on I18n.t('spree.write_your_own_review')
 
         expect(page).to have_text I18n.t('spree.leave_us_a_review_for', name: review.product.name)
